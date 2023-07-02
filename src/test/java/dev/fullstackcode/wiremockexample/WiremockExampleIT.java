@@ -1,6 +1,6 @@
-package dev.fullstackcode.currencyexchange;
+package dev.fullstackcode.wiremockexample;
 
-import dev.fullstackcode.currencyexchange.controller.Post;
+import dev.fullstackcode.wiremockexample.controller.Post;
 import lombok.extern.slf4j.Slf4j;
 import nl.thecheerfuldev.testcontainers.wiremock.WireMockContainer;
 import org.junit.jupiter.api.Test;
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +17,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.MountableFile;
 
-import java.io.File;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -28,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @Slf4j
-class ApplicationTest2 {
+class WiremockExampleIT {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -38,10 +36,10 @@ class ApplicationTest2 {
     @Container
     private static final WireMockContainer WIRE_MOCK_CONTAINER = new WireMockContainer("wiremock/wiremock:2.35.0-alpine")
 			.withCopyFileToContainer(MountableFile.forClasspathResource("extensions"), "/var/wiremock/extensions")
-            .withStubMappingForClasspathResource("stubs") //// loads all *.json files in resources/stubs/
-            .withCommand("-verbose")
+            .withStubMappingForClasspathResource("stubs")//// loads all *.json files in resources/stubs/
+            .withCommand("--verbose")
             .withCommand("--gloabl-response-templating")
-            .withCommand("--extensions com.github.tomakehurst.wiremock.extension.responsetemplating.ResponseTemplateTransformer,com.ninecookies.wiremock.extensions.JsonBodyTransformer");
+            .withCommand("--extensions dev.fullstackcode.wiremock.transformer.ResponseTemplateTransformerExtension,com.ninecookies.wiremock.extensions.JsonBodyTransformer");
 
 
     private static final String ROOT_URL = "http://localhost:";

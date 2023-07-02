@@ -1,4 +1,4 @@
-package dev.fullstackcode.currencyexchange.controller;
+package dev.fullstackcode.wiremockexample.controller;
 
 import lombok.Data;
 
